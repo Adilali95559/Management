@@ -1,0 +1,1 @@
+print(quest,answer)

@@ -1,0 +1,23 @@
+from django.contrib import admin
+from django.urls import path
+from app import views
+
+urlpatterns = [
+    path('', views.index,name='index'),
+    path('quiz', views.quiz ,name='quiz'),
+    path('home', views.home ,name='home'),
+    path('register', views.register ,name='register'),
+    path('logout', views.logoutUser ,name='logout'),
+    path('EmployeeManagement', views.EmployeeManagement ,name='EmployeeManagement'),
+    path('LeaveManagement', views.LeaveManagement ,name='LeaveManagement'),
+    path('AttendanceManagement', views.AttendanceManagement ,name='AttendanceManagement'),
+    path('TeamManagement', views.TeamManagement ,name='TeamManagement'),
+    path('ResourceManagement', views.ResourceManagement ,name='ResourceManagement'),
+    path('add_emp', views.add_emp ,name='add_emp'),
+    path('remove_emp', views.remove_emp ,name='remove_emp'),
+    path('remove_emp/<int:emp_id>', views.remove_emp ,name='remove_emp'),
+    path('filter_emp', views.filter_emp ,name='filter_emp'),
+    path('filter', views.filter ,name='filter'),
+    
+    
+]

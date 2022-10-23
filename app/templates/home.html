@@ -1,0 +1,21 @@
+{%extends 'base.html' %}
+
+{% block tittle %} login {% endblock tittle %}
+{% block body %}
+<h3 class="my-4">All Categories</h3>
+<div class="row">
+    {% for category in data %}
+    <div class="col-md-4">
+        <div class="card">
+            <a href="{% url 'category_question' category.id %}"><img
+                    src="https://source.unsplash.com/1200x400/?programming" class="card-img-top" alt="..."></a>
+            <div class="card-body">
+                <h5 class="card-title"><a class="btn btn-lg btn-primary"
+                        href="{% url 'category_question' category.id %}">{{category.tittle}}</h5></a>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock body %}
