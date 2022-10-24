@@ -10,8 +10,76 @@
    <a class="btn btn-primary" href="/LeaveManagement" role="button">Leave Management</a>
    <a class="btn btn-light" href="/AttendanceManagement" role="button">Attendance Management</a>
    <a class="btn btn-primary" href="/TeamManagement" role="button">Team Management</a>
-   <a class="btn btn-primary" href="/ResourceManagement" role="button">Asset/Resource Management</a>
+   <a class="btn btn-primary" href="/ResourceManagement" role="button">Resource Management</a>
+
+</div>
+   <div class="container">
+    <hr>
+   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Log Attendance</button>
+
+  </div>
+
+
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Employee Attendance</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+           <form action="/add_emp_attendance" method="post">
+            {% csrf_token %}
+             <div class="mb-3">
+               <label for="emp_name" class="col-form-label">Employee Name</label>
+               <input type="text" class="form-control" name="emp_name" value="{{emp_name}}" id="emp_name">
+             </div>
+               <div class="mb-3">
+              <label for="swipe_in" class="col-form-label">Swipe-In Time</label>
+              <input type="date" class="form-control" name="swipe_in" value="{{swipe_in}}" id="swipe_in">
+            </div>
+               <div class="mb-3">
+              <label for="swipe_out" class="col-form-label">Swipe-Out Time</label>
+              <input type="date" class="form-control" name="swipe_out" value="{{swipe_out}}" id="swipe_out">
+
+          </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Submit</button>
+         </div>
+        </form>
+       </div>
+     </div>
+   </div>
+</div>
+<div class="container">
+  <hr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Employee Name</th>
+        <th scope="col">Swipe-In Time</th>
+        <th scope="col">Swipe-Out Time</th>
+        <th scope="col">Total Hours</th>
+        <th scope="col">Full/Half Day</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emp in emps_attendance %}
+      <tr>
+<!--        <th scope="row">{{emp.id}}</th>-->
+        <td>{{emp.emp_name}}</td>
+        <td>{{emp.swipe_in}}</td>
+        <td>{{emp.swipe_out}}</td>
+        <td>{{emp.total_hours}}</td>
+        <td>{{emp.full_or_half_day}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
 </div>
 
-  
+
   {% endblock body %} 
