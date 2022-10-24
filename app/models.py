@@ -42,3 +42,11 @@ class EmpLeaveDetails(models.Model):
     leave_request_status = models.CharField(max_length=30)
     leave_request_approved_by = models.CharField(max_length=30)
 
+
+class EmpAttendanceDetails(models.Model):
+    emp_name = models.CharField(max_length=30)
+    swipe_in = models.DateTimeField()
+    swipe_out = models.DateTimeField()
+    total_hours = models.IntegerField()
+    full_or_half_day = models.CharField(max_length=30)
+

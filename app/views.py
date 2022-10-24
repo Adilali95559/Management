@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
-from datetime import datetime
-from .models import Employee, Role, Department, EmpLeaveDetails
+from datetime import datetime, timezone
+from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails
 # from app.models import Contact
 from django.contrib import messages
 from . import forms
@@ -156,7 +156,11 @@ def LeaveManagement(request):
 
 
 def AttendanceManagement(request):
-    return render(request, 'AttendanceManagement.html')
+    emps_attendance = EmpAttendanceDetails.objects.all()
+    context = {
+        'emps_attendance': emps_attendance
+    }
+    return render(request, 'AttendanceManagement.html', context)
 
 
 def TeamManagement(request):
@@ -194,3 +198,31 @@ def apply_emp_leave(request):
 
     else:
         return render(request, 'LeaveManagement.html', context)
+
+
+def add_emp_attendance(request):
+    emps_attendance = EmpAttendanceDetails.objects.all()
+    context = {
+        'emps_attendance': emps_attendance
+    }
+
+    if request.method == 'POST':
+        emp_name = request.POST['emp_name']
+        swipe_in = request.POST['swipe_in']
+        swipe_out = request.POST['swipe_out']
+        total_hours = 9
+        full_or_half_day = 'Full'
+
+        new_emp = EmpAttendanceDetails(emp_name=emp_name, swipe_in=datetime.now(), swipe_out=datetime.now(),
+                                       total_hours=total_hours,
+                                       full_or_half_day=full_or_half_day,
+                                       )
+        new_emp.save()
+        messages.success(request, 'Attendance logged Successfully')
+        return render(request, 'AttendanceManagement.html')
+    elif request.method == 'GET':
+        return render(request, 'AttendanceManagement.html', context)
+
+
+    else:
+        return render(request, 'AttendanceManagement.html', context)
