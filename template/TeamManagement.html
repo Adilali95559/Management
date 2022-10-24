@@ -10,7 +10,91 @@
    <a class="btn btn-primary" href="/LeaveManagement" role="button">Leave Management</a>
    <a class="btn btn-primary" href="/AttendanceManagement" role="button">Attendance Management</a>
    <a class="btn btn-light" href="/TeamManagement" role="button">Team Management</a>
-   <a class="btn btn-primary" href="/ResourceManagement" role="button">Asset/Resource Management</a>
+   <a class="btn btn-primary" href="/ResourceManagement" role="button">Resource Management</a>
+
+</div>
+   <div class="container">
+    <hr>
+   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Team</button>
+
+  </div>
+
+
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Add Team Member</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+           <form action="/add_team" method="post">
+            {% csrf_token %}
+             <div class="mb-3">
+               <label for="emp_name" class="col-form-label">Employee Name</label>
+               <input type="text" class="form-control" name="emp_name" value="{{emp_name}}" id="emp_name">
+
+
+             </div>
+
+             <div class="mb-3">
+               <label for="team_type" class="col-form-label">Select Team</label>
+                  <select name="team_type" id="team_type">
+                    <option value="Development Team">Development Team</option>
+                    <option value="QA Team">QA Team</option>
+                    <option value="DBA Team">DBA Team</option>
+                    <option value="Support Team Holiday">Support team</option>
+                  </select>
+             </div>
+               <div class="mb-3">
+              <label for="designation" class="col-form-label">Designation</label>
+              <input type="text" class="form-control" name="designation" value="{{designation}}" id="designation">
+            </div>
+               <div class="mb-3">
+              <label for="experience" class="col-form-label">Experience</label>
+              <input type="text" class="form-control" name="experience" value="{{experience}}" id="experience">
+            </div>
+               <div class="mb-3">
+              <label for="project" class="col-form-label">Project Name</label>
+              <input type="text" class="form-control" name="project" value="{{project}}" id="project">
+            </div>
+          </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Submit</button>
+         </div>
+        </form>
+       </div>
+     </div>
+   </div>
+
+<div class="container">
+  <hr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Employee Name</th>
+        <th scope="col">Team Name</th>
+        <th scope="col">Designation</th>
+        <th scope="col">Experience</th>
+        <th scope="col">Project Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emp in emps_team %}
+      <tr>
+<!--        <th scope="row">{{emp.id}}</th>-->
+        <td>{{emp.emp_name}}</td>
+        <td>{{emp.team_type}}</td>
+        <td>{{emp.designation}}</td>
+        <td>{{emp.experience}}</td>
+        <td>{{emp.project}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
 </div>
 
   
