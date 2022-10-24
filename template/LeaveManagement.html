@@ -6,11 +6,101 @@
 <div class="container">
   <h1>Employee Management</h1>
   <hr>
-  <a class="btn btn-primary" href="/EmployeeManagement" role="button">Employee Management</a>
-   <a class="btn btn-light" href="/LeaveManagement" role="button">Leave Management</a>
+  <a class="btn btn-light" href="/EmployeeManagement" role="button">Employee Management</a>
+   <a class="btn btn-primary" href="/LeaveManagement" role="button">Leave Management</a>
    <a class="btn btn-primary" href="/AttendanceManagement" role="button">Attendance Management</a>
    <a class="btn btn-primary" href="/TeamManagement" role="button">Team Management</a>
-   <a class="btn btn-primary" href="/ResourceManagement" role="button">Asset/Resource Management</a>
+   <a class="btn btn-primary" href="/ResourceManagement" role="button">Resource Management</a>
+
+</div>
+   <div class="container">
+    <hr>
+   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Apply Leave</button>
+
+  </div>
+
+
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Employee Leaves</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+           <form action="/apply_emp_leave" method="post">
+            {% csrf_token %}
+             <div class="mb-3">
+               <label for="emp_name" class="col-form-label">Employee Name</label>
+               <input type="text" class="form-control" name="emp_name" value="{{emp_name}}" id="emp_name">
+             </div>
+
+             <div class="mb-3">
+               <label for="leave_type" class="col-form-label">Leave Type</label>
+                  <select name="leave_type" id="leave_type">
+                    <option value="Annual Leave">Annual Leave</option>
+                    <option value="Personal Leave">Personal Leave</option>
+                    <option value="Sick Leave">Sick Leave</option>
+                    <option value="Public Holiday">Public Holiday</option>
+                  </select>
+             </div>
+               <div class="mb-3">
+              <label for="leave_request_from" class="col-form-label">Request From</label>
+              <input type="text" class="form-control" name="leave_request_from" value="{{leave_request_from}}" id="leave_request_from">
+            </div>
+               <div class="mb-3">
+              <label for="leave_request_to" class="col-form-label">Request To</label>
+              <input type="text" class="form-control" name="leave_request_to" value="{{leave_request_to}}" id="leave_request_to">
+            </div>
+               <div class="mb-3">
+              <label for="leave_request_status" class="col-form-label">status</label>
+              <input type="text" class="form-control" name="leave_request_status" value="{{leave_request_status}}" id="leave_request_status">
+            </div>
+            <div class="mb-3">
+              <label for="leave_request_approved_by" class="col-form-label">Approved By</label>
+              <input type="text" class="form-control" name="leave_request_approved_by" value="{{leave_request_approved_by}}" id="leave_request_approved_by">
+            </div>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Submit</button>
+         </div>
+        </form>
+       </div>
+     </div>
+   </div>
+
+<div class="container">
+  <hr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Employee Name</th>
+        <th scope="col">Leave Type</th>
+        <th scope="col">Requested Date</th>
+        <th scope="col">Request From</th>
+        <th scope="col">Request To</th>
+        <th scope="col">Request status</th>
+        <th scope="col">Request Approved By</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emp in emps_leave %}
+      <tr>
+<!--        <th scope="row">{{emp.id}}</th>-->
+        <td>{{emp.emp_name}}</td>
+        <td>{{emp.leave_type}}</td>
+        <td>{{emp.leave_request_date}}</td>
+        <td>{{emp.leave_request_from}}</td>
+        <td>{{emp.leave_request_to}}</td>
+        <td>{{emp.leave_request_status}}</td>
+        <td>{{emp.leave_request_approved_by}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
 </div>
 
   

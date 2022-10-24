@@ -18,6 +18,7 @@ urlpatterns = [
     path('remove_emp/<int:emp_id>', views.remove_emp ,name='remove_emp'),
     path('filter_emp', views.filter_emp ,name='filter_emp'),
     path('filter', views.filter ,name='filter'),
-    path('createAccount', views.createAccount ,name='createAccount'),    
+    path('createAccount', views.createAccount ,name='createAccount'),
+    path('apply_emp_leave', views.apply_emp_leave ,name='apply_emp_leave'),
     
 ]
