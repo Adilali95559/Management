@@ -1,0 +1,24 @@
+{%extends 'base.html' %}
+
+{% block tittle %}register page {% endblock tittle %} 
+
+{% block body %} 
+
+  
+
+<div class="container my-4">
+    <h3 class="my-4">Register</h3>
+  <form  method="post" action="">
+    <table class="table.table-bordered">
+      {% csrf_token %}
+      {{form.as_table}}
+      <tr>
+      <td colspan="2"><input type="submit" class="btn btn-lg btn-primary" /></td>
+    </tr>
+      <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+    </table>
+  </form>
+</div>
+
+
+{% endblock body %} 

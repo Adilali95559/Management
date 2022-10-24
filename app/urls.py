@@ -18,6 +18,6 @@ urlpatterns = [
     path('remove_emp/<int:emp_id>', views.remove_emp ,name='remove_emp'),
     path('filter_emp', views.filter_emp ,name='filter_emp'),
     path('filter', views.filter ,name='filter'),
-    
+    path('createAccount', views.createAccount ,name='createAccount'),    
     
 ]

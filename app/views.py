@@ -12,6 +12,15 @@ from django.db.models import Q
 def index(request):
     return render(request, "base.html")
 
+def createAccount(request):
+    form=forms.RegisterUser
+    if request.method=='POST':
+        form=forms.RegisterUser(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your are register!')
+    return render(request,"createAccount.html",{'form':form})
+
 
 def quiz(request):
     if request.method=="POST":
