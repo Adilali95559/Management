@@ -50,3 +50,11 @@ class EmpAttendanceDetails(models.Model):
     total_hours = models.IntegerField()
     full_or_half_day = models.CharField(max_length=30)
 
+
+class TeamMgmt(models.Model):
+    emp_name = models.CharField(max_length=30)
+    team_type = models.CharField(max_length=30)
+    designation = models.CharField(max_length=30)
+    experience = models.CharField(max_length=30)
+    project = models.CharField(max_length=30)
+

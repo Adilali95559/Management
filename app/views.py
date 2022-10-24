@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from datetime import datetime, timezone
-from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails
+from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails, TeamMgmt
 # from app.models import Contact
 from django.contrib import messages
 from . import forms
@@ -164,7 +164,11 @@ def AttendanceManagement(request):
 
 
 def TeamManagement(request):
-    return render(request, 'TeamManagement.html')
+    emps_team = TeamMgmt.objects.all()
+    context = {
+        'emps_team': emps_team
+    }
+    return render(request, 'TeamManagement.html', context)
 
 
 def ResourceManagement(request):
@@ -226,3 +230,31 @@ def add_emp_attendance(request):
 
     else:
         return render(request, 'AttendanceManagement.html', context)
+
+def add_team(request):
+    emps_team = TeamMgmt.objects.all()
+    context = {
+        'emps_team': emps_team
+    }
+
+    if request.method == 'POST':
+        emp_name = request.POST['emp_name']
+        team_type = request.POST['team_type']
+        designation = request.POST['designation']
+        experience = request.POST['experience']
+        project = request.POST['project']
+
+
+        new_emp = TeamMgmt(emp_name=emp_name, team_type=team_type, designation=designation,
+                                       experience=experience,
+                                       project=project,
+                                       )
+        new_emp.save()
+        messages.success(request, 'Team Member Successfully')
+        return render(request, 'TeamManagement.html')
+    elif request.method == 'GET':
+        return render(request, 'TeamManagement.html', context)
+
+
+    else:
+        return render(request, 'TeamManagement.html', context)
