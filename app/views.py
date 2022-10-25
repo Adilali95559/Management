@@ -139,10 +139,10 @@ def filter_emp(request):
         }
         return render(request, 'EmployeeManagement.html', context)
     elif request.method == 'GET':
-        return render(request, 'EmployeeManagement.html',context)
+        return render(request, 'EmployeeManagement.html',)
     else:
         messages.success(request, "An Exception Occurred")
-        return render(request, 'EmployeeManagement.html',context)
+        return render(request, 'EmployeeManagement.html',)
 
     return render(request, "filter_emp.html",context)
 
@@ -188,7 +188,7 @@ def apply_emp_leave(request):
     if request.method == 'POST':
         emp_name = request.POST['emp_name']
         leave_type = request.POST['leave_type']
-        leave_request_from = request.POST['leave_request_from']
+        leave_request_from = request.POST['leave_request_from'] # TODO : convert date
         leave_request_to = request.POST['leave_request_to']
         leave_request_status = request.POST['leave_request_status']
         leave_request_approved_by = request.POST['leave_request_approved_by']
@@ -218,6 +218,8 @@ def add_emp_attendance(request):
         emp_name = request.POST['emp_name']
         swipe_in = request.POST['swipe_in']
         swipe_out = request.POST['swipe_out']
+
+        # TODO : convert date find total hours and use if  less than 9 == half day else >= 9 then Full day
         total_hours = 9
         full_or_half_day = 'Full'
 
@@ -271,9 +273,9 @@ def add_asset(request):
 
     if request.method == 'POST':
         emp_name = request.POST['emp_name']
-        asset_type = request.POST['asset_type']
+        asset_type = request.POST['asset_type'] # TODO : multi select or checkbox  e.g laptop and headset
         asset_id = request.POST['asset_id']
-        assigned_date = request.POST['assigned_date']
+        assigned_date = request.POST['assigned_date'] # TODO : proper date conversion then replace actuall value in line number 279
         return_date = request.POST['return_date']
 
         new_emp = EmpAssetDetails(emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
