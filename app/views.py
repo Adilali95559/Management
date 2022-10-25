@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from datetime import datetime, timezone
-from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails, TeamMgmt
+from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails, TeamMgmt, EmpAssetDetails
 # from app.models import Contact
 from django.contrib import messages
 from . import forms
@@ -172,7 +172,11 @@ def TeamManagement(request):
 
 
 def ResourceManagement(request):
-    return render(request, 'ResourceManagement.html')
+    emps_asset = EmpAssetDetails.objects.all()
+    context = {
+        'emps_asset': emps_asset
+    }
+    return render(request, 'ResourceManagement.html', context)
 
 
 def apply_emp_leave(request):
@@ -258,3 +262,30 @@ def add_team(request):
 
     else:
         return render(request, 'TeamManagement.html', context)
+
+def add_asset(request):
+    emps_asset = EmpAssetDetails.objects.all()
+    context = {
+        'emps_asset': emps_asset
+    }
+
+    if request.method == 'POST':
+        emp_name = request.POST['emp_name']
+        asset_type = request.POST['asset_type']
+        asset_id = request.POST['asset_id']
+        assigned_date = request.POST['assigned_date']
+        return_date = request.POST['return_date']
+
+        new_emp = EmpAssetDetails(emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
+                                  assigned_date=datetime.now(), return_date=datetime.now(),
+
+                                  )
+        new_emp.save()
+        messages.success(request, 'Asset Assigned Successfully')
+        return render(request, 'ResourceManagement.html')
+    elif request.method == 'GET':
+        return render(request, 'ResourceManagement.html', context)
+
+
+    else:
+        return render(request, 'ResourceManagement.html', context)

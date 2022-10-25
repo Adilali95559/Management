@@ -1,17 +1,101 @@
-
 {%extends 'index.html' %}
 
-{% block tittle %} home   {% endblock tittle %} 
+{% block tittle %} home   {% endblock tittle %}
 
-{% block body %}  
+{% block body %}
 <div class="container">
   <h1>Employee Management</h1>
   <hr>
   <a class="btn btn-primary" href="/EmployeeManagement" role="button">Employee Management</a>
-  <a class="btn btn-primary" href="/LeaveManagement" role="button">Leave Management</a>
-  <a class="btn btn-primary" href="/AttendanceManagement" role="button">Attendance Management</a>
-  <a class="btn btn-primary" href="/TeamManagement" role="button">Team Management</a>
-  <a class="btn btn-light" href="/ResourceManagement" role="button">Asset/Resource Management</a>
+   <a class="btn btn-primary" href="/LeaveManagement" role="button">Leave Management</a>
+   <a class="btn btn-primary" href="/AttendanceManagement" role="button">Attendance Management</a>
+   <a class="btn btn-primary" href="/TeamManagement" role="button">Team Management</a>
+   <a class="btn btn-light" href="/ResourceManagement" role="button">Asset/Resource Management</a>
+
+</div>
+   <div class="container">
+    <hr>
+   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Assign Asset</button>
+
+  </div>
+
+
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Add Employee Asset</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+           <form action="/add_asset" method="post">
+            {% csrf_token %}
+             <div class="mb-3">
+               <label for="emp_name" class="col-form-label">Employee Name</label>
+               <input type="text" class="form-control" name="emp_name" value="{{emp_name}}" id="emp_name">
+
+
+             </div>
+
+             <div class="mb-3">
+               <label for="asset_type" class="col-form-label">Select Asset</label>
+                  <select name="asset_type" id="asset_type">
+                    <option value="Laptop">Laptop</option>
+                    <option value="Desktop Computers">Desktop Computers</option>
+                    <option value="Monitors">Monitors</option>
+                    <option value="Headset">Headset</option>
+                    <option value="Telephones">Telephones</option>
+                  </select>
+             </div>
+               <div class="mb-3">
+              <label for="asset_id" class="col-form-label">Asset Id</label>
+              <input type="text" class="form-control" name="asset_id" value="{{asset_id}}" id="asset_id">
+            </div>
+               <div class="mb-3">
+              <label for="assigned_date" class="col-form-label">Assigned Date</label>
+              <input type="date" class="form-control" name="assigned_date" value="{{assigned_date}}" id="assigned_date">
+            </div>
+               <div class="mb-3">
+              <label for="return_date" class="col-form-label">Return Date</label>
+              <input type="date" class="form-control" name="return_date" value="{{return_date}}" id="return_date">
+            </div>
+          </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Submit</button>
+         </div>
+        </form>
+       </div>
+     </div>
+   </div>
+
+<div class="container">
+  <hr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Employee Name</th>
+        <th scope="col">Asset</th>
+        <th scope="col">Asset Id</th>
+        <th scope="col">Assigned Date</th>
+        <th scope="col">Return Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emp in emps_asset %}
+      <tr>
+<!--        <th scope="row">{{emp.id}}</th>-->
+        <td>{{emp.emp_name}}</td>
+        <td>{{emp.asset_type}}</td>
+        <td>{{emp.asset_id}}</td>
+        <td>{{emp.assigned_date}}</td>
+        <td>{{emp.return_date}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
 </div>
 
   

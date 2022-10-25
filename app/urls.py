@@ -22,5 +22,6 @@ urlpatterns = [
     path('apply_emp_leave', views.apply_emp_leave ,name='apply_emp_leave'),
     path('add_emp_attendance', views.add_emp_attendance ,name='add_emp_attendance'),
     path('add_team', views.add_team ,name='add_team'),
+    path('add_asset', views.add_asset ,name='add_asset'),
     
 ]

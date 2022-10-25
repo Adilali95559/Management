@@ -58,3 +58,10 @@ class TeamMgmt(models.Model):
     experience = models.CharField(max_length=30)
     project = models.CharField(max_length=30)
 
+
+class EmpAssetDetails(models.Model):
+    emp_name = models.CharField(max_length=30)
+    asset_type = models.CharField(max_length=30)
+    asset_id = models.CharField(max_length=30)
+    assigned_date = models.DateTimeField()
+    return_date = models.DateTimeField()
