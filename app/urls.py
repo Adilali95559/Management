@@ -21,9 +21,6 @@ urlpatterns = [
     path('createAccount', views.createAccount ,name='createAccount'),
     path('apply_emp_leave', views.apply_emp_leave ,name='apply_emp_leave'),
     path('add_emp_attendance', views.add_emp_attendance ,name='add_emp_attendance'),
-<<<<<<< HEAD
-=======
     path('add_team', views.add_team ,name='add_team'),
->>>>>>> f23560a274d94437c71d90107a8f32b0c6298abe
     
 ]

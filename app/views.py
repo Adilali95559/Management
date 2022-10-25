@@ -1,10 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from datetime import datetime, timezone
-<<<<<<< HEAD
-from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails
-=======
 from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails, TeamMgmt
->>>>>>> f23560a274d94437c71d90107a8f32b0c6298abe
 # from app.models import Contact
 from django.contrib import messages
 from . import forms
@@ -234,8 +230,6 @@ def add_emp_attendance(request):
 
     else:
         return render(request, 'AttendanceManagement.html', context)
-<<<<<<< HEAD
-=======
 
 def add_team(request):
     emps_team = TeamMgmt.objects.all()
@@ -264,4 +258,3 @@ def add_team(request):
 
     else:
         return render(request, 'TeamManagement.html', context)
->>>>>>> f23560a274d94437c71d90107a8f32b0c6298abe
