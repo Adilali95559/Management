@@ -89,7 +89,7 @@ def add_emp(request):
                            role_id=role, dept_id=dept, hire_date=datetime.now())
         new_emp.save()
         messages.success(request, 'Employee added Successfully')
-        return render(request, 'EmployeeManagement.html')
+        return render(request, 'EmployeeManagement.html',context)
     elif request.method == 'GET':
         return render(request, 'EmployeeManagement.html', context)
 
@@ -139,12 +139,12 @@ def filter_emp(request):
         }
         return render(request, 'EmployeeManagement.html', context)
     elif request.method == 'GET':
-        return render(request, 'EmployeeManagement.html')
+        return render(request, 'EmployeeManagement.html',context)
     else:
         messages.success(request, "An Exception Occurred")
-        return render(request, 'EmployeeManagement.html')
+        return render(request, 'EmployeeManagement.html',context)
 
-    return render(request, "filter_emp.html")
+    return render(request, "filter_emp.html",context)
 
 
 def LeaveManagement(request):
@@ -199,7 +199,7 @@ def apply_emp_leave(request):
                                   leave_request_approved_by=leave_request_approved_by, )
         new_emp.save()
         messages.success(request, 'Leave applied Successfully')
-        return render(request, 'LeaveManagement.html')
+        return render(request, 'LeaveManagement.html',context)
     elif request.method == 'GET':
         return render(request, 'LeaveManagement.html', context)
 
@@ -227,7 +227,7 @@ def add_emp_attendance(request):
                                        )
         new_emp.save()
         messages.success(request, 'Attendance logged Successfully')
-        return render(request, 'AttendanceManagement.html')
+        return render(request, 'AttendanceManagement.html',context)
     elif request.method == 'GET':
         return render(request, 'AttendanceManagement.html', context)
 
@@ -255,7 +255,7 @@ def add_team(request):
                                        )
         new_emp.save()
         messages.success(request, 'Team Member Successfully')
-        return render(request, 'TeamManagement.html')
+        return render(request, 'TeamManagement.html',context)
     elif request.method == 'GET':
         return render(request, 'TeamManagement.html', context)
 
@@ -282,7 +282,7 @@ def add_asset(request):
                                   )
         new_emp.save()
         messages.success(request, 'Asset Assigned Successfully')
-        return render(request, 'ResourceManagement.html')
+        return render(request, 'ResourceManagement.html',context)
     elif request.method == 'GET':
         return render(request, 'ResourceManagement.html', context)
 
