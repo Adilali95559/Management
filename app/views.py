@@ -25,12 +25,15 @@ def createAccount(request):
     return render(request, "createAccount.html", {'form': form})
 
 
-def quiz(request):
+def log_in(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
+            context = {
+        'user': user
+    }
             login(request, user)
             # A backend authenticated the credentials
             messages.success(request, 'Your are login !')
@@ -60,7 +63,7 @@ def register(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('/quiz')
+    return redirect('/log_in')
 
 
 def EmployeeManagement(request):
