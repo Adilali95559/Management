@@ -235,7 +235,7 @@ def add_emp_attendance(request):
          full_or_half_day = 'half'
         else:
          total_hours=9
-         full_or_half_day = 'half'
+         full_or_half_day = 'Full'
 
         new_emp = EmpAttendanceDetails(emp_name=emp_name, swipe_in=swipe_in, swipe_out=swipe_out,
                                        total_hours=total_hours,
