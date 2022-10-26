@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, "base.html")
@@ -22,6 +22,8 @@ def createAccount(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your are register!')
+        else:
+            messages.success(request, 'invalid Entry')
     return render(request, "createAccount.html", {'form': form})
 
 
@@ -57,6 +59,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your are register!')
+    
 
     return render(request, "registert.html", {'form': form})
 
@@ -65,7 +68,7 @@ def logoutUser(request):
     logout(request)
     return redirect('/log_in')
 
-
+@login_required
 def EmployeeManagement(request):
     emps = Employee.objects.all()
     context = {
@@ -73,7 +76,7 @@ def EmployeeManagement(request):
     }
     return render(request, 'EmployeeManagement.html', context)
 
-
+@login_required
 def add_emp(request):
     emps = Employee.objects.all()
     context = {
@@ -100,7 +103,7 @@ def add_emp(request):
     else:
         return render(request, 'EmployeeManagement.html', context)
 
-
+@login_required
 def remove_emp(request, emp_id=0):
     emps = Employee.objects.all()
     context = {
@@ -119,11 +122,11 @@ def remove_emp(request, emp_id=0):
 
     return render(request, 'EmployeeManagement.html', context)
 
-
+@login_required
 def filter(request):
     return render(request, 'filter_emp.html')
 
-
+@login_required
 def filter_emp(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -149,7 +152,7 @@ def filter_emp(request):
 
     return render(request, "filter_emp.html",context)
 
-
+@login_required
 def LeaveManagement(request):
     emps_leave = EmpLeaveDetails.objects.all()
     context = {
@@ -157,7 +160,7 @@ def LeaveManagement(request):
     }
     return render(request, 'LeaveManagement.html', context)
 
-
+@login_required
 def AttendanceManagement(request):
     emps_attendance = EmpAttendanceDetails.objects.all()
     context = {
@@ -165,7 +168,7 @@ def AttendanceManagement(request):
     }
     return render(request, 'AttendanceManagement.html', context)
 
-
+@login_required
 def TeamManagement(request):
     emps_team = TeamMgmt.objects.all()
     context = {
@@ -173,7 +176,7 @@ def TeamManagement(request):
     }
     return render(request, 'TeamManagement.html', context)
 
-
+@login_required
 def ResourceManagement(request):
     emps_asset = EmpAssetDetails.objects.all()
     context = {
@@ -181,7 +184,7 @@ def ResourceManagement(request):
     }
     return render(request, 'ResourceManagement.html', context)
 
-
+@login_required
 def apply_emp_leave(request):
     emps_leave = EmpLeaveDetails.objects.all()
     context = {
@@ -210,7 +213,7 @@ def apply_emp_leave(request):
     else:
         return render(request, 'LeaveManagement.html', context)
 
-
+@login_required
 def add_emp_attendance(request):
     emps_attendance = EmpAttendanceDetails.objects.all()
     context = {
@@ -251,6 +254,7 @@ def add_emp_attendance(request):
     else:
         return render(request, 'AttendanceManagement.html', context)
 
+@login_required
 def add_team(request):
     emps_team = TeamMgmt.objects.all()
     context = {
@@ -279,6 +283,7 @@ def add_team(request):
     else:
         return render(request, 'TeamManagement.html', context)
 
+@login_required
 def add_asset(request):
     emps_asset = EmpAssetDetails.objects.all()
     context = {
