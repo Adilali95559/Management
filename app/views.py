@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from .decorators import unauthenticated_user,allowed_users
 
 def index(request):
     return render(request, "base.html")
@@ -69,6 +70,7 @@ def logoutUser(request):
     return redirect('/log_in')
 
 @login_required
+@allowed_users(allowed_roles='admin')
 def EmployeeManagement(request):
     emps = Employee.objects.all()
     context = {

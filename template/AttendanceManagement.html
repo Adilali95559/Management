@@ -6,11 +6,15 @@
 <div class="container">
   <h1>Employee Management</h1>
   <hr>
+  {% if request.user.is_staff %}
   <a class="btn btn-primary" href="/EmployeeManagement" role="button">Employee Management</a>
+  {% endif %}
    <a class="btn btn-primary" href="/LeaveManagement" role="button">Leave Management</a>
    <a class="btn btn-light" href="/AttendanceManagement" role="button">Attendance Management</a>
+   {% if request.user.is_staff %}
    <a class="btn btn-primary" href="/TeamManagement" role="button">Team Management</a>
    <a class="btn btn-primary" href="/ResourceManagement" role="button">Asset/Resource Management</a>
+   {% endif %}
 
 </div>
    <div class="container">
