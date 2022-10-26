@@ -28,7 +28,7 @@ def admin_only(view_func):
         if request.user.groups.exists():
               group=request.user.groups.all()[0].name
         if group=='admin':
-            messages.success(request, 'You are a Admin !')
+            
             return view_func(request,*args,**kwargs)
         else:
             messages.success(request, 'You are a employee !')

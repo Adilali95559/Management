@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from .decorators import unauthenticated_user,allowed_users
+from .decorators import unauthenticated_user,allowed_users,admin_only
 
 def index(request):
     return render(request, "base.html")
@@ -70,7 +70,7 @@ def logoutUser(request):
     return redirect('/log_in')
 
 @login_required
-@allowed_users(allowed_roles='admin')
+@admin_only
 def EmployeeManagement(request):
     emps = Employee.objects.all()
     context = {
@@ -79,6 +79,7 @@ def EmployeeManagement(request):
     return render(request, 'EmployeeManagement.html', context)
 
 @login_required
+@admin_only
 def add_emp(request):
     emps = Employee.objects.all()
     context = {
@@ -106,6 +107,7 @@ def add_emp(request):
         return render(request, 'EmployeeManagement.html', context)
 
 @login_required
+@admin_only
 def remove_emp(request, emp_id=0):
     emps = Employee.objects.all()
     context = {
@@ -125,10 +127,12 @@ def remove_emp(request, emp_id=0):
     return render(request, 'EmployeeManagement.html', context)
 
 @login_required
+@admin_only
 def filter(request):
     return render(request, 'filter_emp.html')
 
 @login_required
+@admin_only
 def filter_emp(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -171,6 +175,7 @@ def AttendanceManagement(request):
     return render(request, 'AttendanceManagement.html', context)
 
 @login_required
+@admin_only
 def TeamManagement(request):
     emps_team = TeamMgmt.objects.all()
     context = {
@@ -179,6 +184,7 @@ def TeamManagement(request):
     return render(request, 'TeamManagement.html', context)
 
 @login_required
+@admin_only
 def ResourceManagement(request):
     emps_asset = EmpAssetDetails.objects.all()
     context = {
@@ -257,6 +263,7 @@ def add_emp_attendance(request):
         return render(request, 'AttendanceManagement.html', context)
 
 @login_required
+@admin_only
 def add_team(request):
     emps_team = TeamMgmt.objects.all()
     context = {
@@ -286,6 +293,7 @@ def add_team(request):
         return render(request, 'TeamManagement.html', context)
 
 @login_required
+@admin_only
 def add_asset(request):
     emps_asset = EmpAssetDetails.objects.all()
     context = {
