@@ -221,12 +221,23 @@ def add_emp_attendance(request):
         emp_name = request.POST['emp_name']
         swipe_in = request.POST['swipe_in']
         swipe_out = request.POST['swipe_out']
+        n=swipe_in.split("T")
+        n1=swipe_out.split("T")
+        tn=n[1].split(":")
+        tn1=n1[1].split(":")
+        t1=int(tn[0])
+        t2=int(tn1[0])
+        total_time=t2-t1
+        if total_time<9:
 
         # TODO : convert date find total hours and use if  less than 9 == half day else >= 9 then Full day
-        total_hours = 9
-        full_or_half_day = 'Full'
+         total_hours = total_time
+         full_or_half_day = 'half'
+        else:
+         total_hours=9
+         full_or_half_day = 'half'
 
-        new_emp = EmpAttendanceDetails(emp_name=emp_name, swipe_in=datetime.now(), swipe_out=datetime.now(),
+        new_emp = EmpAttendanceDetails(emp_name=emp_name, swipe_in=swipe_in, swipe_out=swipe_out,
                                        total_hours=total_hours,
                                        full_or_half_day=full_or_half_day,
                                        )
