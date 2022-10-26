@@ -36,7 +36,7 @@ def log_in(request):
     }
             login(request, user)
             # A backend authenticated the credentials
-            messages.success(request, 'Your are login !')
+            messages.success(request, f'Your are login ! {user}')
             return render(request, "index.html")
         else:
             # No backend authenticated the credentials
@@ -197,7 +197,7 @@ def apply_emp_leave(request):
         leave_request_approved_by = request.POST['leave_request_approved_by']
 
         new_emp = EmpLeaveDetails(emp_name=emp_name, leave_type=leave_type, leave_request_date=datetime.now(),
-                                  leave_request_from=datetime.now(), leave_request_to=datetime.now(),
+                                  leave_request_from=leave_request_from, leave_request_to=leave_request_to,
                                   leave_request_status=leave_request_status,
                                   leave_request_approved_by=leave_request_approved_by, )
         new_emp.save()
