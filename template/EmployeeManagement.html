@@ -43,9 +43,18 @@
            <h5 class="modal-title" id="exampleModalLabel">New Employee</h5>
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
+
          <div class="modal-body">
            <form action="/add_emp" method="post">
+
             {% csrf_token %}
+               <div class="mb-3">
+               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  {% for username in userlist %}
+                        <li><a class="dropdown-item" href="/remove_emp/{{emp.id}}">{{username}}</a></li>
+                   {% endfor %}
+               </ul>
+            </div>
              <div class="mb-3">
                <label for="first_name" class="col-form-label">First Name</label>
                <input type="text" class="form-control" name="first_name" value="{{first_name}}" id="first_name">

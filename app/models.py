@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Model
 from django.contrib.auth.models import User
 
-# TODO : model mapping , manually should not enter
+
 # Create your models here.
 class Department(models.Model):
     name = models.CharField(max_length=100, null=False)
@@ -20,6 +20,7 @@ class Role(models.Model):
 
 
 class Employee(models.Model):
+    emp_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     dept = models.ForeignKey(Department, on_delete=models.CASCADE)
@@ -28,12 +29,14 @@ class Employee(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     phone = models.IntegerField(default=0)
     hire_date = models.DateField()
+    username = models.CharField(max_length=30, default='NA')
 
     def __str__(self):
         return "%s %s %s" % (self.first_name, self.last_name, self.phone)
 
 
 class EmpLeaveDetails(models.Model):
+    emp_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
     emp_name = models.CharField(max_length=30)
     leave_type = models.CharField(max_length=30)
     leave_request_date = models.DateField()
@@ -44,6 +47,7 @@ class EmpLeaveDetails(models.Model):
 
 
 class EmpAttendanceDetails(models.Model):
+    emp_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
     emp_name = models.CharField(max_length=30)
     swipe_in = models.DateTimeField()
     swipe_out = models.DateTimeField()
@@ -52,6 +56,7 @@ class EmpAttendanceDetails(models.Model):
 
 
 class TeamMgmt(models.Model):
+    emp_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
     emp_name = models.CharField(max_length=30)
     team_type = models.CharField(max_length=30)
     designation = models.CharField(max_length=30)
@@ -60,6 +65,7 @@ class TeamMgmt(models.Model):
 
 
 class EmpAssetDetails(models.Model):
+    emp_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
     emp_name = models.CharField(max_length=30)
     asset_type = models.CharField(max_length=30)
     asset_id = models.CharField(max_length=30)
