@@ -73,7 +73,17 @@ def logoutUser(request):
 @login_required
 @admin_only
 def EmployeeManagement(request):
-    emps = Employee.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps = Employee.objects.filter(emp_id=emp_id).values()
+    else:
+        emps = Employee.objects.all()
+
     userlist = User.objects.all()
     context = {
         'emps': emps,
@@ -187,7 +197,17 @@ def LeaveManagement(request):
 
 @login_required
 def AttendanceManagement(request):
-    emps_attendance = EmpAttendanceDetails.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps_attendance = EmpAttendanceDetails.objects.filter(emp_id=emp_id).values()
+    else:
+        emps_attendance = EmpAttendanceDetails.objects.all()
+
     context = {
         'emps_attendance': emps_attendance
     }
@@ -197,7 +217,17 @@ def AttendanceManagement(request):
 @login_required
 @admin_only
 def TeamManagement(request):
-    emps_team = TeamMgmt.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps_team = TeamMgmt.objects.filter(emp_id=emp_id).values()
+    else:
+        emps_team = TeamMgmt.objects.all()
+
     context = {
         'emps_team': emps_team
     }
@@ -207,7 +237,18 @@ def TeamManagement(request):
 @login_required
 @admin_only
 def ResourceManagement(request):
-    emps_asset = EmpAssetDetails.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps_asset = EmpAssetDetails.objects.filter(emp_id=emp_id).values()
+        emp_instance = Employee.objects.get(emp_id=emp_id)
+    else:
+        emps_asset = EmpAssetDetails.objects.all()
+
     context = {
         'emps_asset': emps_asset
     }
