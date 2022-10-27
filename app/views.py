@@ -118,7 +118,7 @@ def add_emp(request):
         role = int(request.POST['role'])
         dept = int(request.POST['dept'])
         # TODO : replace with original value from html drop down while adding employee
-        username = "asifali"  # request.POST['username']
+        username = "adilali007"  # request.POST['username']
 
         new_emp = Employee(first_name=first_name, last_name=last_name, salary=salary, bonus=bonus, phone=phone,
                            role_id=role, dept_id=dept, hire_date=datetime.now(), username=username)
