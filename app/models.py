@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Model
 from django.contrib.auth.models import User
 
-
+# TODO : model mapping , manually should not enter
 # Create your models here.
 class Department(models.Model):
     name = models.CharField(max_length=100, null=False)
