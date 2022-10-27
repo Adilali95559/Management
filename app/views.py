@@ -89,6 +89,7 @@ def EmployeeManagement(request):
         'emps': emps,
         'userslist': userlist
     }
+    
     return render(request, 'EmployeeManagement.html', context)
 
 
@@ -106,10 +107,14 @@ def add_emp(request):
     else:
         emps = Employee.objects.all()
 
+    userlist = User.objects.all()
     context = {
-        'emps': emps
+        'emps': emps,
+        'userslist': userlist
     }
+    print(emps)
     if request.method == 'POST':
+        username =  request.POST['username']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         salary = int(request.POST['salary'])
@@ -118,7 +123,8 @@ def add_emp(request):
         role = int(request.POST['role'])
         dept = int(request.POST['dept'])
         # TODO : replace with original value from html drop down while adding employee
-        username = "adilali007"  # request.POST['username']
+    
+        
 
         new_emp = Employee(first_name=first_name, last_name=last_name, salary=salary, bonus=bonus, phone=phone,
                            role_id=role, dept_id=dept, hire_date=datetime.now(), username=username)
@@ -146,12 +152,14 @@ def remove_emp(request, emp_id=0):
         emps = Employee.objects.filter(emp_id=emp_id).values()
     else:
         emps = Employee.objects.all()
+    userlist = User.objects.all()
     context = {
-        'emps': emps
+        'emps': emps,
+        'userslist': userlist
     }
     if emp_id:
         try:
-            emp_to_be_remove = Employee.objects.get(id=emp_id)
+            emp_to_be_remove = Employee.objects.get(emp_id=emp_id)
             emp_to_be_remove.delete()
             messages.success(request, 'Employee Removed Successfully')
 
