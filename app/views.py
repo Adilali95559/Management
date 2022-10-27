@@ -95,7 +95,17 @@ def EmployeeManagement(request):
 @login_required
 @admin_only
 def add_emp(request):
-    emps = Employee.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps = Employee.objects.filter(emp_id=emp_id).values()
+    else:
+        emps = Employee.objects.all()
+
     context = {
         'emps': emps
     }
@@ -126,7 +136,16 @@ def add_emp(request):
 @login_required
 @admin_only
 def remove_emp(request, emp_id=0):
-    emps = Employee.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps = Employee.objects.filter(emp_id=emp_id).values()
+    else:
+        emps = Employee.objects.all()
     context = {
         'emps': emps
     }
@@ -299,7 +318,18 @@ def apply_emp_leave(request):
 
 @login_required
 def add_emp_attendance(request):
-    emps_attendance = EmpAttendanceDetails.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps_attendance = EmpAttendanceDetails.objects.filter(emp_id=emp_id).values()
+        emp_instance = Employee.objects.get(emp_id=emp_id)
+    else:
+        emps_attendance = EmpAttendanceDetails.objects.all()
+
     context = {
         'emps_attendance': emps_attendance
     }
@@ -324,7 +354,7 @@ def add_emp_attendance(request):
             total_hours = 9
             full_or_half_day = 'Full'
 
-        new_emp = EmpAttendanceDetails(emp_name=emp_name, swipe_in=swipe_in, swipe_out=swipe_out,
+        new_emp = EmpAttendanceDetails(emp_id=emp_instance,emp_name=emp_name, swipe_in=swipe_in, swipe_out=swipe_out,
                                        total_hours=total_hours,
                                        full_or_half_day=full_or_half_day,
                                        )
@@ -342,7 +372,17 @@ def add_emp_attendance(request):
 @login_required
 @admin_only
 def add_team(request):
-    emps_team = TeamMgmt.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps_team = TeamMgmt.objects.filter(emp_id=emp_id).values()
+        emp_instance = Employee.objects.get(emp_id=emp_id)
+    else:
+        emps_team = TeamMgmt.objects.all()
     context = {
         'emps_team': emps_team
     }
@@ -354,7 +394,7 @@ def add_team(request):
         experience = request.POST['experience']
         project = request.POST['project']
 
-        new_emp = TeamMgmt(emp_name=emp_name, team_type=team_type, designation=designation,
+        new_emp = TeamMgmt(emp_id = emp_instance ,emp_name=emp_name, team_type=team_type, designation=designation,
                            experience=experience,
                            project=project,
                            )
@@ -372,7 +412,17 @@ def add_team(request):
 @login_required
 @admin_only
 def add_asset(request):
-    emps_asset = EmpAssetDetails.objects.all()
+    username = request.user.username
+    if username != 'admin':
+        emps = Employee.objects.filter(username=username).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+
+        emps_asset = EmpAssetDetails.objects.filter(emp_id=emp_id).values()
+        emp_instance = Employee.objects.get(emp_id=emp_id)
+    else:
+        emps_asset = EmpAssetDetails.objects.all()
     context = {
         'emps_asset': emps_asset
     }
@@ -385,7 +435,7 @@ def add_asset(request):
             'assigned_date']  # TODO : proper date conversion then replace actuall value in line number 279
         return_date = request.POST['return_date']
 
-        new_emp = EmpAssetDetails(emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
+        new_emp = EmpAssetDetails(emp_id = emp_instance ,emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
                                   assigned_date=datetime.now(), return_date=datetime.now(),
 
                                   )
