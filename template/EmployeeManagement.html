@@ -92,8 +92,8 @@
               <label for="role" class="col-form-label">Role</label>
               <select id="role" class="form-control" name="role" value="role"  >
                 <li><option ></option></li>
-                {% for emp in emps%}
-                <li><option value="{{emp.role.name}}">{{emp.role.name}}</option></li>
+                {% for emp in emps_role%}
+                <li><option value="{{emp.role.name}}">{{emp.name}}</option></li>
                 {% endfor %}
                 
               </select>
@@ -106,8 +106,8 @@
               <label for="dept" class="col-form-label">Department</label>
               <select id="dept" class="form-control" name="dept" value="dept"  >
                 <li><option ></option></li>
-                {% for emp in emps %}
-                <li><option value="{{emp.dept.name}}">{{emp.dept.name}}</option></li>
+                {% for emp in all_department %}
+                <li><option value="{{emp.dept.name}}">{{emp.name}}</option></li>
                 {% endfor %}
                 
               </select>

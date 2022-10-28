@@ -85,9 +85,13 @@ def EmployeeManagement(request):
         emps = Employee.objects.all()
 
     userlist = User.objects.all()
+    emps_role = Role.objects.all()
+    all_department = Department.objects.all()
     context = {
         'emps': emps,
-        'userslist': userlist
+        'userslist': userlist,
+        'emps_role': emps_role,
+        'all_department' : all_department
     }
     
     return render(request, 'EmployeeManagement.html', context)
