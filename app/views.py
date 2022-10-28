@@ -446,33 +446,46 @@ def add_team(request):
 @login_required
 @admin_only
 def add_asset(request):
-    username = request.user.username
-    emp_names = Employee.objects.all()
-    
-    emps_asset = EmpAssetDetails.objects.all()
-    context = {
-        'emps_asset': emps_asset,
-        'emp_names': emp_names
-    }
 
     if request.method == 'POST':
-        emp_name = request.POST['user_name']
+        user_name = request.POST['user_name']
+        emps = Employee.objects.filter(username=user_name).values()
+        emp_id = ''
+        for emp in emps:
+            emp_id = int(emp['emp_id'])
+            emp_names = emp['first_name'] + emp['last_name']
+        emp_instance = Employee.objects.get(emp_id=emp_id)
+
         asset_type = request.POST['asset_type']  # TODO : multi select or checkbox  e.g laptop and headset
         asset_id = request.POST['asset_id']
         assigned_date = request.POST[
             'assigned_date']  # TODO : proper date conversion then replace actual value in line number 279
         return_date = request.POST['return_date']
 
-        new_emp = EmpAssetDetails(emp_id=emp_instance, emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
+        new_emp = EmpAssetDetails(emp_id=emp_instance, emp_name=emp_names, asset_type=asset_type, asset_id=asset_id,
                                   assigned_date=datetime.now(), return_date=datetime.now(),
 
                                   )
         new_emp.save()
+        emps_asset = EmpAssetDetails.objects.all()
+        context = {
+            'emps_asset': emps_asset,
+            'emp_names': emp_names
+        }
         messages.success(request, 'Asset Assigned Successfully')
         return render(request, 'ResourceManagement.html', context)
     elif request.method == 'GET':
+        emps_asset = EmpAssetDetails.objects.all()
+        context = {
+            'emps_asset': emps_asset,
+        }
         return render(request, 'ResourceManagement.html', context)
 
 
     else:
+        emps_asset = EmpAssetDetails.objects.all()
+        context = {
+            'emps_asset': emps_asset,
+        }
+
         return render(request, 'ResourceManagement.html', context)
