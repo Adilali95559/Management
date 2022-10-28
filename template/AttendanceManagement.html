@@ -17,11 +17,13 @@
    {% endif %}
 
 </div>
+{% if request.user.not_staff %}
    <div class="container">
     <hr>
    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Log Attendance</button>
 
   </div>
+{% endif %}
 
 
 

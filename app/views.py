@@ -265,11 +265,18 @@ def TeamManagement(request):
         emps_team = TeamMgmt.objects.filter(emp_id=emp_id).values()
     else:
         emps_team = TeamMgmt.objects.all()
+        emps = Employee.objects.all()
+
+    userlist = User.objects.all()
+    
 
     context = {
         'emps_team': emps_team,
-        'emp_names': emp_names
+        'emp_names': emp_names,
+        'userslist': userlist
     }
+
+
     return render(request, 'TeamManagement.html', context)
 
 
@@ -404,42 +411,49 @@ def add_emp_attendance(request):
 @login_required
 @admin_only
 def add_team(request):
-    username = request.user.username
-    emp_names = ''
-    if username != 'admin':
-        emps = Employee.objects.filter(username=username).values()
+    
+    if request.method == 'POST':
+        
+        user_name = request.POST['user_name']
+        emps = Employee.objects.filter(username=user_name).values()
         emp_id = ''
+        
         for emp in emps:
             emp_id = int(emp['emp_id'])
-            emp_names = emp['last_name'] + ' ' + emp['last_name']
-        emps_team = TeamMgmt.objects.filter(emp_id=emp_id).values()
+            emp_names = emp['first_name'] + emp['last_name']
         emp_instance = Employee.objects.get(emp_id=emp_id)
-    else:
-        emps_team = TeamMgmt.objects.all()
-    context = {
-        'emps_team': emps_team,
-        'emp_names': emp_names
-    }
-
-    if request.method == 'POST':
-        emp_name = request.POST['emp_name']
         team_type = request.POST['team_type']
         designation = request.POST['designation']
         experience = request.POST['experience']
         project = request.POST['project']
 
-        new_emp = TeamMgmt(emp_id=emp_instance, emp_name=emp_name, team_type=team_type, designation=designation,
+        new_emp = TeamMgmt(emp_id=emp_instance, emp_name=emp_names, team_type=team_type, designation=designation,
                            experience=experience,
                            project=project,
                            )
         new_emp.save()
+        emps_asset = TeamMgmt.objects.all()
+        context = {
+            'emps_asset': emps_asset,
+            'emp_names': emp_names
+        }
         messages.success(request, 'Team Member Successfully')
         return render(request, 'TeamManagement.html', context)
     elif request.method == 'GET':
+        emps_asset = TeamMgmt.objects.all()
+        context = {
+            'emps_asset': emps_asset,
+
+        }
         return render(request, 'TeamManagement.html', context)
 
 
     else:
+        emps_asset = TeamMgmt.objects.all()
+        context = {
+            'emps_asset': emps_asset,
+
+        }
         return render(request, 'TeamManagement.html', context)
 
 
