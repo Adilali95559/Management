@@ -219,6 +219,7 @@ def LeaveManagement(request):
         for emp in emps:
             emp_id = emp['emp_id']
             emp_names = emp['first_name'] + emp['last_name']
+            
         emps_leave = EmpLeaveDetails.objects.filter(emp_id=emp_id).values()
     else:
         emps_leave = EmpLeaveDetails.objects.all()
@@ -237,8 +238,8 @@ def AttendanceManagement(request):
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
         for emp in emps:
-            emp_id = int(emp['emp_id'])
-            emp_names = emp['last_name'] + ' ' + emp['last_name']
+            emp_id = emp['emp_id']
+            emp_names = emp['first_name'] + emp['last_name']
         emps_attendance = EmpAttendanceDetails.objects.filter(emp_id=emp_id).values()
     else:
         emps_attendance = EmpAttendanceDetails.objects.all()
