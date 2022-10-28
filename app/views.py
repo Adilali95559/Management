@@ -74,6 +74,7 @@ def logoutUser(request):
 @admin_only
 def EmployeeManagement(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -101,6 +102,7 @@ def EmployeeManagement(request):
 @admin_only
 def add_emp(request):
     username = request.user.username
+
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -210,6 +212,7 @@ def filter_emp(request):
 @login_required
 def LeaveManagement(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -229,6 +232,7 @@ def LeaveManagement(request):
 @login_required
 def AttendanceManagement(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -250,6 +254,7 @@ def AttendanceManagement(request):
 @admin_only
 def TeamManagement(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -271,6 +276,7 @@ def TeamManagement(request):
 @admin_only
 def ResourceManagement(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -292,6 +298,7 @@ def ResourceManagement(request):
 @login_required
 def apply_emp_leave(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -335,6 +342,7 @@ def apply_emp_leave(request):
 @login_required
 def add_emp_attendance(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -390,6 +398,7 @@ def add_emp_attendance(request):
 @admin_only
 def add_team(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -431,6 +440,7 @@ def add_team(request):
 @admin_only
 def add_asset(request):
     username = request.user.username
+    emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
         emp_id = ''
@@ -451,7 +461,7 @@ def add_asset(request):
         asset_type = request.POST['asset_type']  # TODO : multi select or checkbox  e.g laptop and headset
         asset_id = request.POST['asset_id']
         assigned_date = request.POST[
-            'assigned_date']  # TODO : proper date conversion then replace actuall value in line number 279
+            'assigned_date']  # TODO : proper date conversion then replace actual value in line number 279
         return_date = request.POST['return_date']
 
         new_emp = EmpAssetDetails(emp_id=emp_instance, emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
