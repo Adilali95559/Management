@@ -118,7 +118,7 @@ def add_emp(request):
         'emps': emps,
         'userslist': userlist
     }
-    print(emps)
+    
     if request.method == 'POST':
         username = request.POST['username']
         first_name = request.POST['first_name']
@@ -287,11 +287,17 @@ def ResourceManagement(request):
         emps_asset = EmpAssetDetails.objects.filter(emp_id=emp_id).values()
         emp_instance = Employee.objects.get(emp_id=emp_id)
     else:
+        
         emps_asset = EmpAssetDetails.objects.all()
+        emps = Employee.objects.all()
+
+    userlist = User.objects.all()
+    
 
     context = {
         'emps_asset': emps_asset,
-        'emp_names': emp_names
+        'emp_names': emp_names,
+        'userslist': userlist
     }
     return render(request, 'ResourceManagement.html', context)
 
@@ -441,24 +447,16 @@ def add_team(request):
 @admin_only
 def add_asset(request):
     username = request.user.username
-    emp_names = ''
-    if username != 'admin':
-        emps = Employee.objects.filter(username=username).values()
-        emp_id = ''
-        for emp in emps:
-            emp_id = int(emp['emp_id'])
-            emp_names = emp['last_name'] + ' ' + emp['last_name']
-        emps_asset = EmpAssetDetails.objects.filter(emp_id=emp_id).values()
-        emp_instance = Employee.objects.get(emp_id=emp_id)
-    else:
-        emps_asset = EmpAssetDetails.objects.all()
+    emp_names = Employee.objects.all()
+    
+    emps_asset = EmpAssetDetails.objects.all()
     context = {
         'emps_asset': emps_asset,
         'emp_names': emp_names
     }
 
     if request.method == 'POST':
-        emp_name = request.POST['emp_name']
+        emp_name = request.POST['user_name']
         asset_type = request.POST['asset_type']  # TODO : multi select or checkbox  e.g laptop and headset
         asset_id = request.POST['asset_id']
         assigned_date = request.POST[

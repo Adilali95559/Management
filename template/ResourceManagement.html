@@ -35,12 +35,16 @@
          <div class="modal-body">
            <form action="/add_asset" method="post">
             {% csrf_token %}
-             <div class="mb-3">
-               <label for="emp_name" class="col-form-label">Employee Name</label>
-               <input type="text" class="form-control" name="emp_name" value={{emp_names}} id="emp_name" readonly>
-
-
-             </div>
+            <div class="mb-3">
+              <label for="user_name" class="col-form-label">Employee Username</label>
+              <select id="user_name" class="form-control" name="user_name" value="user_name"  >
+                <li><option ></option></li>
+                {% for username in userslist%}
+                <li><option value="{{username}}">{{username}}</option></li>
+                {% endfor %}
+                
+              </select>
+            </div>
 
              <div class="mb-3">
                <label for="asset_type" class="col-form-label">Select Asset</label>
