@@ -91,9 +91,9 @@ def EmployeeManagement(request):
         'emps': emps,
         'userslist': userlist,
         'emps_role': emps_role,
-        'all_department' : all_department
+        'all_department': all_department
     }
-    
+
     return render(request, 'EmployeeManagement.html', context)
 
 
@@ -118,7 +118,7 @@ def add_emp(request):
     }
     print(emps)
     if request.method == 'POST':
-        username =  request.POST['username']
+        username = request.POST['username']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         salary = int(request.POST['salary'])
@@ -127,8 +127,6 @@ def add_emp(request):
         role = int(request.POST['role'])
         dept = int(request.POST['dept'])
         # TODO : replace with original value from html drop down while adding employee
-    
-        
 
         new_emp = Employee(first_name=first_name, last_name=last_name, salary=salary, bonus=bonus, phone=phone,
                            role_id=role, dept_id=dept, hire_date=datetime.now(), username=username)
@@ -217,11 +215,13 @@ def LeaveManagement(request):
         emp_id = ''
         for emp in emps:
             emp_id = emp['emp_id']
+            emp_names = emp['first_name'] + emp['last_name']
         emps_leave = EmpLeaveDetails.objects.filter(emp_id=emp_id).values()
     else:
         emps_leave = EmpLeaveDetails.objects.all()
     context = {
-        'emps_leave': emps_leave
+        'emps_leave': emps_leave,
+        'emp_names': emp_names
     }
     return render(request, 'LeaveManagement.html', context)
 
@@ -234,13 +234,14 @@ def AttendanceManagement(request):
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
-
+            emp_names = emp['last_name'] + ' ' + emp['last_name']
         emps_attendance = EmpAttendanceDetails.objects.filter(emp_id=emp_id).values()
     else:
         emps_attendance = EmpAttendanceDetails.objects.all()
 
     context = {
-        'emps_attendance': emps_attendance
+        'emps_attendance': emps_attendance,
+        'emp_names': emp_names
     }
     return render(request, 'AttendanceManagement.html', context)
 
@@ -254,13 +255,14 @@ def TeamManagement(request):
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
-
+            emp_names = emp['last_name'] + ' ' + emp['last_name']
         emps_team = TeamMgmt.objects.filter(emp_id=emp_id).values()
     else:
         emps_team = TeamMgmt.objects.all()
 
     context = {
-        'emps_team': emps_team
+        'emps_team': emps_team,
+        'emp_names': emp_names
     }
     return render(request, 'TeamManagement.html', context)
 
@@ -274,14 +276,15 @@ def ResourceManagement(request):
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
-
+            emp_names = emp['last_name'] + ' ' + emp['last_name']
         emps_asset = EmpAssetDetails.objects.filter(emp_id=emp_id).values()
         emp_instance = Employee.objects.get(emp_id=emp_id)
     else:
         emps_asset = EmpAssetDetails.objects.all()
 
     context = {
-        'emps_asset': emps_asset
+        'emps_asset': emps_asset,
+        'emp_names': emp_names
     }
     return render(request, 'ResourceManagement.html', context)
 
@@ -294,23 +297,24 @@ def apply_emp_leave(request):
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
-
+            emp_names = emp['last_name'] + ' ' + emp['last_name']
         emps_leave = EmpLeaveDetails.objects.filter(emp_id=emp_id).values()
         emp_instance = Employee.objects.get(emp_id=emp_id)
     else:
         emps_leave = EmpLeaveDetails.objects.all()
 
     context = {
-        'emps_leave': emps_leave
+        'emps_leave': emps_leave,
+        'emp_names': emp_names
     }
 
     if request.method == 'POST':
         emp_name = request.POST['emp_name']
         leave_type = request.POST['leave_type']
-        leave_request_from = request.POST['leave_request_from']  # TODO : convert date
+        leave_request_from = request.POST['leave_request_from']
         leave_request_to = request.POST['leave_request_to']
-        leave_request_status = request.POST['leave_request_status']
-        leave_request_approved_by = request.POST['leave_request_approved_by']
+        leave_request_status = 'Waiting For Approval'
+        leave_request_approved_by = 'NA'
 
         new_emp = EmpLeaveDetails(emp_id=emp_instance, emp_name=emp_name, leave_type=leave_type,
                                   leave_request_date=datetime.now(),
@@ -336,14 +340,15 @@ def add_emp_attendance(request):
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
-
+            emp_names = emp['last_name'] + ' ' + emp['last_name']
         emps_attendance = EmpAttendanceDetails.objects.filter(emp_id=emp_id).values()
         emp_instance = Employee.objects.get(emp_id=emp_id)
     else:
         emps_attendance = EmpAttendanceDetails.objects.all()
 
     context = {
-        'emps_attendance': emps_attendance
+        'emps_attendance': emps_attendance,
+        'emp_names': emp_names
     }
 
     if request.method == 'POST':
@@ -366,7 +371,7 @@ def add_emp_attendance(request):
             total_hours = 9
             full_or_half_day = 'Full'
 
-        new_emp = EmpAttendanceDetails(emp_id=emp_instance,emp_name=emp_name, swipe_in=swipe_in, swipe_out=swipe_out,
+        new_emp = EmpAttendanceDetails(emp_id=emp_instance, emp_name=emp_name, swipe_in=swipe_in, swipe_out=swipe_out,
                                        total_hours=total_hours,
                                        full_or_half_day=full_or_half_day,
                                        )
@@ -390,13 +395,14 @@ def add_team(request):
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
-
+            emp_names = emp['last_name'] + ' ' + emp['last_name']
         emps_team = TeamMgmt.objects.filter(emp_id=emp_id).values()
         emp_instance = Employee.objects.get(emp_id=emp_id)
     else:
         emps_team = TeamMgmt.objects.all()
     context = {
-        'emps_team': emps_team
+        'emps_team': emps_team,
+        'emp_names': emp_names
     }
 
     if request.method == 'POST':
@@ -406,7 +412,7 @@ def add_team(request):
         experience = request.POST['experience']
         project = request.POST['project']
 
-        new_emp = TeamMgmt(emp_id = emp_instance ,emp_name=emp_name, team_type=team_type, designation=designation,
+        new_emp = TeamMgmt(emp_id=emp_instance, emp_name=emp_name, team_type=team_type, designation=designation,
                            experience=experience,
                            project=project,
                            )
@@ -430,13 +436,14 @@ def add_asset(request):
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
-
+            emp_names = emp['last_name'] + ' ' + emp['last_name']
         emps_asset = EmpAssetDetails.objects.filter(emp_id=emp_id).values()
         emp_instance = Employee.objects.get(emp_id=emp_id)
     else:
         emps_asset = EmpAssetDetails.objects.all()
     context = {
-        'emps_asset': emps_asset
+        'emps_asset': emps_asset,
+        'emp_names': emp_names
     }
 
     if request.method == 'POST':
@@ -447,7 +454,7 @@ def add_asset(request):
             'assigned_date']  # TODO : proper date conversion then replace actuall value in line number 279
         return_date = request.POST['return_date']
 
-        new_emp = EmpAssetDetails(emp_id = emp_instance ,emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
+        new_emp = EmpAssetDetails(emp_id=emp_instance, emp_name=emp_name, asset_type=asset_type, asset_id=asset_id,
                                   assigned_date=datetime.now(), return_date=datetime.now(),
 
                                   )
