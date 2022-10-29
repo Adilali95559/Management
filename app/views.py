@@ -416,6 +416,9 @@ def add_team(request):
         
         user_name = request.POST['user_name']
         emps = Employee.objects.filter(username=user_name).values()
+        if not emps:
+            messages.error(request, 'Please on Board this user as employee then only add as team member')
+            return render(request, 'TeamManagement.html')
         emp_id = ''
         
         for emp in emps:
@@ -464,6 +467,10 @@ def add_asset(request):
     if request.method == 'POST':
         user_name = request.POST['user_name']
         emps = Employee.objects.filter(username=user_name).values()
+        if not emps:
+            messages.error(request, 'Please on Board this user as employee then only assign asset')
+            return render(request, 'ResourceManagement.html')
+
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])

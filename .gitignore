@@ -6,3 +6,4 @@
 .idea/inspectionProfiles/profiles_settings.xml
 app/__pycache__/views.cpython-310.pyc
 app/__pycache__/views.cpython-310.pyc
+/.idea/.gitignore
