@@ -1,16 +1,16 @@
-from django.shortcuts import render, HttpResponse, redirect
-from datetime import datetime, timezone
-from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails, TeamMgmt, EmpAssetDetails
+from datetime import datetime
+
 # from app.models import Contact
 from django.contrib import messages
-from . import forms
-from . import models
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, logout, login
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-from .decorators import unauthenticated_user, allowed_users, admin_only
+from django.shortcuts import render, redirect
+
+from . import forms
+from .decorators import admin_only
+from .models import Employee, Role, Department, EmpLeaveDetails, EmpAttendanceDetails, TeamMgmt, EmpAssetDetails
 
 
 def index(request):
@@ -129,8 +129,6 @@ def add_emp(request):
         role = int(request.POST['role'])
         dept = int(request.POST['dept'])
 
-        # TODO : replace with original value from html drop down while adding employee
-
         new_emp = Employee(first_name=first_name, last_name=last_name, salary=salary, bonus=bonus, phone=phone,
                            role_id=role, dept_id=dept, hire_date=datetime.now(), username=username)
         new_emp.save()
@@ -216,6 +214,9 @@ def LeaveManagement(request):
     emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
+        if not emps:
+            messages.error(request, 'Please on Board this user as employee then use Leave Management Feature.')
+            return render(request, 'LeaveManagement.html')
         emp_id = ''
         for emp in emps:
             emp_id = emp['emp_id']
@@ -238,6 +239,9 @@ def AttendanceManagement(request):
     emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
+        if not emps:
+            messages.error(request, 'Please on Board this user as employee then use Attendance Management Feature.')
+            return render(request, 'AttendanceManagement.html')
         emp_id = ''
         for emp in emps:
             emp_id = emp['emp_id']
@@ -318,6 +322,9 @@ def apply_emp_leave(request):
     emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
+        if not emps:
+            messages.error(request, 'Please on Board this user as employee then use Leave Management Feature.')
+            return render(request, 'LeaveManagement.html')
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
@@ -362,6 +369,9 @@ def add_emp_attendance(request):
     emp_names = ''
     if username != 'admin':
         emps = Employee.objects.filter(username=username).values()
+        if not emps:
+            messages.error(request, 'Please on Board this user as employee then use Attendance Management Feature.')
+            return render(request, 'AttendanceManagement.html')
         emp_id = ''
         for emp in emps:
             emp_id = int(emp['emp_id'])
@@ -380,20 +390,25 @@ def add_emp_attendance(request):
         emp_name = request.POST['emp_name']
         swipe_in = request.POST['swipe_in']
         swipe_out = request.POST['swipe_out']
-        n = swipe_in.split("T")
-        n1 = swipe_out.split("T")
-        tn = n[1].split(":")
-        tn1 = n1[1].split(":")
-        t1 = int(tn[0])
-        t2 = int(tn1[0])
-        total_time = t2 - t1
-        if total_time < 9:
+        swipe_in_time = datetime.strptime(swipe_in, '%Y-%m-%dT%H:%M')
+        swipe_out_time = datetime.strptime(swipe_out, '%Y-%m-%dT%H:%M')
+        target_date = str(swipe_out_time - swipe_in_time)
 
-            # TODO : convert date find total hours and use if  less than 9 == half day else >= 9 then Full day
+        if target_date.__contains__('day'):
+            total_time = 24
+        else:
+            total_time = int(target_date.split(':')[0])
+
+        if 9 > total_time > 0:
+
             total_hours = total_time
             full_or_half_day = 'half'
+
+        elif total_time <= 0:
+            total_hours = 0
+            full_or_half_day = 'absent'
         else:
-            total_hours = 9
+            total_hours = total_time
             full_or_half_day = 'Full'
 
         new_emp = EmpAttendanceDetails(emp_id=emp_instance, emp_name=emp_name, swipe_in=swipe_in, swipe_out=swipe_out,
@@ -480,10 +495,10 @@ def add_asset(request):
             emp_names = emp['first_name'] + emp['last_name']
         emp_instance = Employee.objects.get(emp_id=emp_id)
 
-        asset_type = request.POST['asset_type']  # TODO : multi select or checkbox  e.g laptop and headset
+        asset_type = request.POST['asset_type']
         asset_id = request.POST['asset_id']
         assigned_date = request.POST[
-            'assigned_date']  # TODO : proper date conversion then replace actual value in line number 279
+            'assigned_date']
         return_date = request.POST['return_date']
 
         new_emp = EmpAssetDetails(emp_id=emp_instance, emp_name=emp_names, asset_type=asset_type, asset_id=asset_id,
