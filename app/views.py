@@ -128,6 +128,7 @@ def add_emp(request):
         phone = int(request.POST['phone'])
         role = int(request.POST['role'])
         dept = int(request.POST['dept'])
+
         # TODO : replace with original value from html drop down while adding employee
 
         new_emp = Employee(first_name=first_name, last_name=last_name, salary=salary, bonus=bonus, phone=phone,
@@ -225,7 +226,8 @@ def LeaveManagement(request):
         emps_leave = EmpLeaveDetails.objects.all()
     context = {
         'emps_leave': emps_leave,
-        'emp_names': emp_names
+        'emp_names': emp_names,
+        'username' : username
     }
     return render(request, 'LeaveManagement.html', context)
 
@@ -246,7 +248,8 @@ def AttendanceManagement(request):
 
     context = {
         'emps_attendance': emps_attendance,
-        'emp_names': emp_names
+        'emp_names': emp_names,
+        'username' : username
     }
     return render(request, 'AttendanceManagement.html', context)
 
@@ -423,7 +426,7 @@ def add_team(request):
         
         for emp in emps:
             emp_id = int(emp['emp_id'])
-            emp_names = emp['first_name'] + emp['last_name']
+            emp_names = emp['first_name'] + '' +emp['last_name']
         emp_instance = Employee.objects.get(emp_id=emp_id)
         team_type = request.POST['team_type']
         designation = request.POST['designation']
@@ -484,7 +487,7 @@ def add_asset(request):
         return_date = request.POST['return_date']
 
         new_emp = EmpAssetDetails(emp_id=emp_instance, emp_name=emp_names, asset_type=asset_type, asset_id=asset_id,
-                                  assigned_date=datetime.now(), return_date=datetime.now(),
+                                  assigned_date=datetime.now(), return_date=return_date,
 
                                   )
         new_emp.save()

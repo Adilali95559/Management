@@ -19,12 +19,12 @@
 </div>
    <div class="container">
     <hr>
-    {% if request.user.not_staff %}
+    {% if username != 'admin' %}
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Apply Leave</button>
       {% endif %}
  
  
-        <a class="btn btn-info" href="#" role="button">Leave Approve</a>
+
   </div>
 
 

@@ -39,6 +39,9 @@
 
 7. Start the server 
    python .\manage.py runserver 8080
+8. Creat superuser
+   python manage.py createsuperuser
+   
 
 
 ## Note : Admin user will be available no need to create again.

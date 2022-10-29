@@ -93,7 +93,7 @@
               <select id="role" class="form-control" name="role" value="role"  >
                 <li><option ></option></li>
                 {% for emp in emps_role%}
-                <li><option value="{{emp.role.name}}">{{emp.name}}</option></li>
+                <li><option value="{{emp.id}}">{{emp.name}}</option></li>
                 {% endfor %}
                 
               </select>
@@ -107,7 +107,7 @@
               <select id="dept" class="form-control" name="dept" value="dept"  >
                 <li><option ></option></li>
                 {% for emp in all_department %}
-                <li><option value="{{emp.dept.name}}">{{emp.name}}</option></li>
+                <li><option value="{{emp.id}}">{{emp.name}}</option></li>
                 {% endfor %}
                 
               </select>
